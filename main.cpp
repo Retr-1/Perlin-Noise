@@ -30,10 +30,22 @@ public:
 		if (GetKey(olc::Q).bPressed) {
 			perlin.octaves++;
 			perlin.calculate();
+			std::cout << perlin.octaves << " Octaves\n";
 		}
 		if (GetKey(olc::A).bPressed) {
 			perlin.octaves--;
 			perlin.calculate();
+			std::cout << perlin.octaves << " Octaves\n";
+		}
+		if (GetKey(olc::W).bPressed) {
+			perlin.basedrop += 0.2;
+			perlin.calculate();
+			std::cout << perlin.basedrop << " Basedrop\n";
+		}
+		if (GetKey(olc::S).bPressed) {
+			perlin.basedrop -= 0.2;
+			perlin.calculate();
+			std::cout << perlin.basedrop << " Basedrop\n";
 		}
 
 		Clear(olc::BLACK);
