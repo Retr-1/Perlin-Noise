@@ -18,18 +18,33 @@ public:
 	bool OnUserCreate() override
 	{
 		// Called once at the start, so create things here
-		perlin = Perlin1D(ScreenWidth());
+		perlin.set_size(ScreenWidth());
+		perlin.octaves = 8;
+		perlin.basedrop = 2;
+		perlin.calculate();
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
+		if (GetKey(olc::Q).bPressed) {
+			perlin.octaves++;
+			perlin.calculate();
+		}
+		if (GetKey(olc::A).bPressed) {
+			perlin.octaves--;
+			perlin.calculate();
+		}
+
 		Clear(olc::BLACK);
-		// Called once per frame, draws random coloured pixels
 		for (int i = 0; i < ScreenWidth(); i++) {
 			float val = perlin.get(i);
-			for (int j = val * ScreenHeight() / 2; j < ScreenHeight() / 2; j++) {
-				Draw(i, j, olc::GREEN);
+			int h = (ScreenHeight() / 2) - (val * ScreenHeight() / 2);
+			
+			for (int j = 0; j < ScreenHeight() / 2; j++) {
+				if (j >= h) {
+					Draw(i, j, olc::GREEN);
+				}
 			}
 		}
 		return true;
@@ -38,6 +53,8 @@ public:
 
 int main()
 {
+	srand(0);
+
 	Window win;
 	if (win.Construct(800, 800, 1, 1))
 		win.Start();
