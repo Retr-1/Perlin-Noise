@@ -19,33 +19,28 @@ public:
 	{
 		// Called once at the start, so create things here
 		perlin.set_size(ScreenWidth());
-		perlin.octaves = 8;
-		perlin.basedrop = 2;
-		perlin.calculate();
+		perlin.set_octaves(8);
+		perlin.set_basedrop(2);
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
 		if (GetKey(olc::Q).bPressed) {
-			perlin.octaves++;
-			perlin.calculate();
-			std::cout << perlin.octaves << " Octaves\n";
+			perlin.set_octaves(perlin.get_octaves()+1);
+			std::cout << perlin.get_octaves() << " Octaves\n";
 		}
 		if (GetKey(olc::A).bPressed) {
-			perlin.octaves--;
-			perlin.calculate();
-			std::cout << perlin.octaves << " Octaves\n";
+			perlin.set_octaves(perlin.get_octaves() - 1);
+			std::cout << perlin.get_octaves() << " Octaves\n";
 		}
 		if (GetKey(olc::W).bPressed) {
-			perlin.basedrop += 0.2;
-			perlin.calculate();
-			std::cout << perlin.basedrop << " Basedrop\n";
+			perlin.set_basedrop(perlin.get_basedrop() + 0.2);
+			std::cout << perlin.get_basedrop() << " Basedrop\n";
 		}
 		if (GetKey(olc::S).bPressed) {
-			perlin.basedrop -= 0.2;
-			perlin.calculate();
-			std::cout << perlin.basedrop << " Basedrop\n";
+			perlin.set_basedrop(perlin.get_basedrop() - 0.2);
+			std::cout << perlin.get_basedrop() << " Basedrop\n";
 		}
 
 		Clear(olc::BLACK);
