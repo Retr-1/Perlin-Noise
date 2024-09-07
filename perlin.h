@@ -225,7 +225,7 @@ class Perlin2D : public Perlin<Perlin2D> {
 
 					float value1 = ((1 - blend_x) * seed[sample1x + sample1y * width] + blend_x * seed[sample2x + sample1y * width]) * scale_factor;
 					float value2 = ((1 - blend_x) * seed[sample1x + sample2y * width] + blend_x * seed[sample2x + sample2y * width]) * scale_factor;
-					values[x+y*width] += ((1 - blend_y) * value1 + blend_y * value2) * scale_factor;
+					values[x+y*width] += ((1 - blend_y) * value1 + blend_y * value2);
 
 					scale_sum += scale_factor;
 					scale_factor /= basedrop;
