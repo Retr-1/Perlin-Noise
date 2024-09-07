@@ -237,6 +237,9 @@ class Perlin2D : public Perlin<Perlin2D> {
 	}
 
 public:
+	Perlin2D(int width = 256, int height = 256, int octaves = 8, float basedrop = 1.2) : width(width), height(height), Perlin(width*height, octaves, basedrop) {
+	}
+
 	void set_size(int width, int height) {
 		Perlin::set_size(width * height);
 		this->width = width;
