@@ -216,21 +216,21 @@ class Perlin2D : public Perlin<Perlin2D> {
 					}
 
 					int sample1x = x - x % pitch_x;
-					int sample2x = (sample1x + pitch_x) % size;
+					int sample2x = (sample1x + pitch_x) % width;
 					int sample1y = y - y % pitch_y;
-					int sample2y = sample1y + pitch_y;
+					int sample2y = (sample1y + pitch_y) % height;
 
 					float blend_x = (x - sample1x) / (float)pitch_x;
 					float blend_y = (y - sample1y) / (float)pitch_y;
 
 					float value1 = ((1 - blend_x) * seed[sample1x + sample1y * width] + blend_x * seed[sample2x + sample1y * width]) * scale_factor;
 					float value2 = ((1 - blend_x) * seed[sample1x + sample2y * width] + blend_x * seed[sample2x + sample2y * width]) * scale_factor;
-					values[x] += ((1 - blend_y) * value1 + blend_y * value2) * scale_factor;
+					values[x+y*width] += ((1 - blend_y) * value1 + blend_y * value2) * scale_factor;
 
 					scale_sum += scale_factor;
 					scale_factor /= basedrop;
 				}
-				values[x] /= scale_sum;
+				values[x+y*width] /= scale_sum;
 			}
 		}
 		tainted = false;
