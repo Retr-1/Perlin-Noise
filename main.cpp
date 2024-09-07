@@ -58,6 +58,9 @@ public:
 					perlin.set_basedrop(perlin.get_basedrop() - 0.2);
 					std::cout << perlin.get_basedrop() << " Basedrop\n";
 				}
+				if (GetKey(olc::SPACE).bPressed) {
+					perlin.randomize_seed();
+				}
 
 				Clear(olc::BLACK);
 				for (int i = 0; i < ScreenWidth(); i++) {
@@ -89,6 +92,9 @@ public:
 				if (GetKey(olc::S).bPressed) {
 					perlin2.set_basedrop(perlin2.get_basedrop() - 0.2);
 					std::cout << perlin2.get_basedrop() << " Basedrop\n";
+				}
+				if (GetKey(olc::SPACE).bPressed) {
+					perlin2.randomize_seed();
 				}
 
 				for (int x = 0; x < ScreenWidth(); x++) {
