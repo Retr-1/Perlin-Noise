@@ -86,7 +86,13 @@ void perlinND(int dimensions, int* size, int octaves, float basedrop, float* see
 	delete[] pos;
 }
 
+template <class Derived>
 class Perlin {
+private:
+	Derived* derived() {
+		return static_cast<Derived*>(this);
+	}
+
 protected:
 	int size;
 	float* values;
@@ -142,7 +148,10 @@ public:
 	int get_octaves() { return octaves; }
 	float get_basedrop() { return basedrop; }
 
-	virtual void calculate() {}
+	void calculate() {
+		derived()->calculate();
+		//derived_obj->calculate();
+	}
 
 	float get(int x) {
 		if (!init_seed) {
@@ -155,10 +164,12 @@ public:
 	}
 };
 
-class Perlin1D : public Perlin {
+class Perlin1D : public Perlin<Perlin1D> {
+	friend Perlin;
+
 	using Perlin::Perlin;
 
-	void calculate() override {
+	void calculate() {
 		for (int x = 0; x < size; x++) {
 			float scale_factor = 1;
 			float scale_sum = 0;
