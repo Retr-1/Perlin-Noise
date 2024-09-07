@@ -128,6 +128,20 @@ public:
 		tainted = true;
 	}
 
+	void set_octaves(int octaves) {
+		this->octaves = octaves;
+		tainted = true;
+	}
+
+	void set_basedrop(int basedrop) {
+		this->basedrop = basedrop;
+		tainted = true;
+	}
+
+	int get_size() { return size; }
+	int get_octaves() { return octaves; }
+	float get_basedrop() { return basedrop; }
+
 	void calculate() {
 		for (int x = 0; x < size; x++) {
 			float scale_factor = 1;
