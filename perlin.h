@@ -195,25 +195,55 @@ class Perlin1D : public Perlin<Perlin1D> {
 	}
 };
 
-class Perlin2D {
-protected:
+class Perlin2D : public Perlin<Perlin2D> {
+	friend Perlin;
+
 	int width;
 	int height;
-	int octaves;
-	float basedrop;
 
-	float* values;
-	float* seed;
+	void calculate() {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				float scale_factor = 1;
+				float scale_sum = 0;
+				values[x+y*width] = 0;
+				for (int octave = 0; octave < octaves; octave++) {
+					int pitch_x = width >> octave;
+					int pitch_y = height >> octave;
+
+					if (pitch_x <= 0 || pitch_y <= 0) {
+						break;
+					}
+
+					int sample1x = x - x % pitch_x;
+					int sample2x = (sample1x + pitch_x) % size;
+					int sample1y = y - y % pitch_y;
+					int sample2y = sample1y + pitch_y;
+
+					float blend_x = (x - sample1x) / (float)pitch_x;
+					float blend_y = (y - sample1y) / (float)pitch_y;
+
+					float value1 = ((1 - blend_x) * seed[sample1x + sample1y * width] + blend_x * seed[sample2x + sample1y * width]) * scale_factor;
+					float value2 = ((1 - blend_x) * seed[sample1x + sample2y * width] + blend_x * seed[sample2x + sample2y * width]) * scale_factor;
+					values[x] += ((1 - blend_y) * value1 + blend_y * value2) * scale_factor;
+
+					scale_sum += scale_factor;
+					scale_factor /= basedrop;
+				}
+				values[x] /= scale_sum;
+			}
+		}
+		tainted = false;
+	}
 
 public:
-	Perlin2D(int width = 256, int height = 256, int octaves = 8, float basedrop = 2) : width(width), height(height), octaves(octaves), basedrop(basedrop) {
-
+	void set_size(int width, int height) {
+		Perlin::set_size(width * height);
+		this->width = width;
+		this->height = height;
 	}
 
-	~Perlin2D() {
-		delete[] values;
-		delete[] seed;
+	float get(int x, int y) {
+		return Perlin::get(y * width + x);
 	}
-
-
 };
