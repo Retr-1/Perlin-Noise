@@ -195,7 +195,10 @@ class Perlin1D : public Perlin<Perlin1D> {
 	}
 };
 
+
 class Perlin2D : public Perlin<Perlin2D> {
+	// 2 octaves and -1 basedrop is very interesting !!!
+
 	friend Perlin;
 
 	int width;
@@ -223,9 +226,9 @@ class Perlin2D : public Perlin<Perlin2D> {
 					float blend_x = (x - sample1x) / (float)pitch_x;
 					float blend_y = (y - sample1y) / (float)pitch_y;
 
-					float value1 = ((1 - blend_x) * seed[sample1x + sample1y * width] + blend_x * seed[sample2x + sample1y * width]) * scale_factor;
-					float value2 = ((1 - blend_x) * seed[sample1x + sample2y * width] + blend_x * seed[sample2x + sample2y * width]) * scale_factor;
-					values[x+y*width] += ((1 - blend_y) * value1 + blend_y * value2);
+					float value1 = ((1 - blend_x) * seed[sample1x + sample1y * width] + blend_x * seed[sample2x + sample1y * width]);
+					float value2 = ((1 - blend_x) * seed[sample1x + sample2y * width] + blend_x * seed[sample2x + sample2y * width]);
+					values[x+y*width] += ((1 - blend_y) * value1 + blend_y * value2) * scale_factor;
 
 					scale_sum += scale_factor;
 					scale_factor /= basedrop;
